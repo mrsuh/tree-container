@@ -15,6 +15,8 @@ template <class KEYTYPE, class DATATYPE>
 class Tree{
     private:
         Node<KEYTYPE, DATATYPE>* root;
+        unsigned int capacity;
+  
         unsigned int count;
     public:
         Tree();
@@ -23,7 +25,9 @@ class Tree{
         Node<KEYTYPE, DATATYPE>* min_elem();
         Node<KEYTYPE, DATATYPE>* max_elem();
         Node<KEYTYPE, DATATYPE>* find_elem(const KEYTYPE &my_key);
+        Node<KEYTYPE, DATATYPE>* postorder(Node<KEYTYPE, DATATYPE>* n);
         unsigned int getSize();
+        
         
 };
 
@@ -48,7 +52,7 @@ int Tree<KEYTYPE, DATATYPE>::insert_elem(const KEYTYPE &my_key,const DATATYPE &m
     }
     
     
-    count++;//увеличим счетчик на еденицу
+    capacity++;//увеличим счетчик на еденицу
     ptr = root;//начнем искать с корня
     ptr2 = 0;
     
@@ -89,7 +93,7 @@ int Tree<KEYTYPE, DATATYPE>::remove_elem(const KEYTYPE &my_key){
     if(ptr == NULL)
         return 1;
 
-    count--; //уменьшим счетчик на еденицу
+    capacity--; //уменьшим счетчик на еденицу
     if((ptr->left == 0) && (ptr->right == 0)){//в узле нет детей
        if((ptr->parent)->left== ptr )//удалим на него ссылку из родителя
             (ptr->parent)->left = 0;
@@ -200,8 +204,19 @@ Node<KEYTYPE, DATATYPE>* Tree<KEYTYPE, DATATYPE>::min_elem(){//самый лев
 
 template<class KEYTYPE,class DATATYPE>
 unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем сколько узлом в дереве
-    return count;
+    return capacity;
 }
+
+template <class KEYTYPE, class DATATYPE>
+Node<KEYTYPE, DATATYPE>* Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
+    /*if(n != NULL)
+        postorder(n->left);
+    else
+        postorder(n->right);
+    order[count] = this;
+    count++;
+     */
+} 
 
 #endif	/* TREE_H */
 

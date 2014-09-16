@@ -20,51 +20,33 @@ int main() {
     string word;//передаем в контейнер
     unsigned int size = 256;//размер массива для getline
     char line[size];//массив для getline
-    char delim[] = " ,.:!;";//разделители
-    Tree<string, int> tree;//контейнер Tree
+    char delim[] = " ,.:!;*";//разделители
+    Tree<string, int> tree;//создадим объект Tree
     Node<string, int> *NodePtr;
+    char *tmp;
     
     ifstream file("/home/damin/1.txt");//сам файл
     if(!file)//проверяем существует ли файл
         cout<<"file not found\n";
     
     while(!file.eof()){
-        file.getline(line, size);//считывает строку из файла
-        
-        
-        
-    char* tmp = std::strtok(line,delim);//разделяет по словам
+        file.getline(line, size);//считывает строку из файла 
+    tmp = std::strtok(line,delim);//разделяет по словам
+    
     while(tmp!=NULL){
-        
-        NodePtr = tree.find_elem(tmp);
-        //if(NodePtr == NULL)//если такого элемента нет
-            tree.insert_elem(tmp,1);//добавить его
-        //else
-            std::cout<<"+1";
-        
-      
+            tree.insert_elem(tmp,1);//добавим найденный узел
     tmp = strtok(NULL,delim);
     }
     }
     
     NodePtr = tree.find_elem("hello");
-    std::cout<<"\n"<<NodePtr->getKey()<<" :"<<NodePtr->getData()<<"\n";
+    std::cout<<"\n"<<NodePtr->getKey()<<" :"<<NodePtr->getData();
+    NodePtr = tree.find_elem("hi");
+    std::cout<<"\n"<<NodePtr->getKey()<<" :"<<NodePtr->getData();
     
     
-        
     
-    
-    
-    /*
-    Tree<string, int> t;
-    t.insert_elem("hello",3);
-    Node<string, int>* ptr;
-    ptr = t.find_elem("hello");
-    if(ptr == NULL)
-        cout<<"\nfind error";
-    else
-        cout<<"\nFk:"<<ptr->getKey()<<" Fd:"<<ptr->getData();
-     */
+ 
     return 0;
 }
 
