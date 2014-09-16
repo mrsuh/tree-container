@@ -9,14 +9,19 @@
 #define	TREE_H
 #include <iostream>
 #include "Node.h"
-
-
 template <class KEYTYPE, class DATATYPE>
-class Tree{
+struct order{
+          KEYTYPE key;
+          DATATYPE data;
+        };
+        
+template <class KEYTYPE, class DATATYPE>
+class Tree : public order<KEYTYPE, DATATYPE>{
     private:
+        
+        void postorder(Node<KEYTYPE, DATATYPE>* n);
         Node<KEYTYPE, DATATYPE>* root;
         unsigned int capacity;
-  
         unsigned int count;
     public:
         Tree();
@@ -25,16 +30,18 @@ class Tree{
         Node<KEYTYPE, DATATYPE>* min_elem();
         Node<KEYTYPE, DATATYPE>* max_elem();
         Node<KEYTYPE, DATATYPE>* find_elem(const KEYTYPE &my_key);
-        Node<KEYTYPE, DATATYPE>* postorder(Node<KEYTYPE, DATATYPE>* n);
+        void setPostorder();
+        order<KEYTYPE, DATATYPE> getValue(const unsigned int count);
         unsigned int getSize();
         
-        
+    private: order<KEYTYPE, DATATYPE> *dat;
 };
 
 template <class KEYTYPE, class DATATYPE>
 Tree<KEYTYPE, DATATYPE>::Tree(){
     root = NULL;
-    std::cout<<"Root:"<<root;
+    count = 0;
+    capacity = 0;
 }
 
 
@@ -50,9 +57,8 @@ int Tree<KEYTYPE, DATATYPE>::insert_elem(const KEYTYPE &my_key,const DATATYPE &m
        ptr->data += my_data;
        return 0;
     }
-    
-    
     capacity++;//увеличим счетчик на еденицу
+    
     ptr = root;//начнем искать с корня
     ptr2 = 0;
     
@@ -163,6 +169,7 @@ Node<KEYTYPE, DATATYPE>* Tree<KEYTYPE, DATATYPE>::find_elem(const KEYTYPE& my_ke
     ptr = root;
     
     while(my_key != ptr->getKey()){
+        
         if(my_key < ptr->getKey())
             ptr = ptr->left;
         else
@@ -203,20 +210,34 @@ Node<KEYTYPE, DATATYPE>* Tree<KEYTYPE, DATATYPE>::min_elem(){//самый лев
 }
 
 template<class KEYTYPE,class DATATYPE>
-unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем сколько узлом в дереве
+unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем количество узлов в дереве
     return capacity;
 }
 
 template <class KEYTYPE, class DATATYPE>
-Node<KEYTYPE, DATATYPE>* Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
-    /*if(n != NULL)
+void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
+    if(n->left != NULL)
         postorder(n->left);
-    else
+    else if(n->right != NULL)
         postorder(n->right);
-    order[count] = this;
+    {
+    dat[count].data = n->data;
+    dat[count].key = n->key;
     count++;
-     */
-} 
+    }
+ } 
+
+template<class KEYTYPE, class DATATYPE>
+void Tree<KEYTYPE, DATATYPE>::setPostorder(){
+    dat = new order<KEYTYPE, DATATYPE>[capacity];
+    postorder(root);
+};
+template<class KEYTYPE, class DATATYPE>
+order<KEYTYPE, DATATYPE> Tree<KEYTYPE, DATATYPE>::getValue(const unsigned int count){
+    if(count <= capacity)
+    return dat[count];
+}
+
 
 #endif	/* TREE_H */
 

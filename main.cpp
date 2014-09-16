@@ -39,12 +39,21 @@ int main() {
     }
     }
     
-    NodePtr = tree.find_elem("hello");
+    NodePtr = tree.find_elem("alf");
+    if(NodePtr == NULL)
+        std::cout<<"\nfind error";
+    else
     std::cout<<"\n"<<NodePtr->getKey()<<" :"<<NodePtr->getData();
-    NodePtr = tree.find_elem("hi");
+    NodePtr = tree.find_elem("beta");
+    if(NodePtr == NULL)
+        std::cout<<"\nfind error";
+    else
     std::cout<<"\n"<<NodePtr->getKey()<<" :"<<NodePtr->getData();
     
     
+    tree.setPostorder();
+    for (int i = 0; i<tree.getSize(); i++)
+    std::cout<<"\nk:"<<tree.getValue(i).key<<" :"<<tree.getValue(i).data;
     
  
     return 0;
