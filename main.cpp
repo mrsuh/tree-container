@@ -34,15 +34,11 @@ int main() {
     tmp = strtok(NULL,delim);
         }
     }
-    
-    
-    
-    
-    
+
     tree.setPostorder();
     std::cout<<"\nVALUE:";
-    for (int i = 0; i >= tree.getSize(); i++)
-    std::cout<<tree.getValue(i).key<<" :"<<tree.getValue(i).data<<"\n";
+    for (int i = 0; i < tree.getSize(); i++)
+    std::cout<<"\n--|"<<tree.getValue(i).key<<" : "<<tree.getValue(i).data;
     
    
     

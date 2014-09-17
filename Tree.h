@@ -31,7 +31,7 @@ class Tree : public order<KEYTYPE, DATATYPE>{
         Node<KEYTYPE, DATATYPE>* max_elem();
         Node<KEYTYPE, DATATYPE>* find_elem(const KEYTYPE &my_key);
         void setPostorder();
-        order<KEYTYPE, DATATYPE> getValue(const unsigned int count);
+        order<KEYTYPE, DATATYPE> getValue(const unsigned int &count);
         unsigned int getSize();
         
     private: order<KEYTYPE, DATATYPE> *dat;
@@ -216,14 +216,16 @@ unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем количест�
 
 template <class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
-    if(n->left != NULL)
+    if(n->left != NULL){
         postorder(n->left);
-    else if(n->right != NULL)
+    } 
+    if(n->right != NULL){
         postorder(n->right);
+    }
     {
-    //dat[count].data = n->data;
-    //dat[count].key = n->key;
-    //count++;
+    dat[count].data = n->data;
+    dat[count].key = n->key;
+    count++;
     }
  }
 
@@ -231,13 +233,32 @@ template<class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::setPostorder(){
     dat = new order<KEYTYPE, DATATYPE>[capacity];
     count = 0;
-    postorder(root);
+    if(root->left != NULL){
+    postorder(root->left);
+    }
+    dat[count].data = root->data;
+    dat[count].key = root->key;
+    count++;
+    
+    if (root->right != NULL){
+    postorder(root->right);
+    }
 }
 
 template<class KEYTYPE, class DATATYPE>
-order<KEYTYPE, DATATYPE> Tree<KEYTYPE, DATATYPE>::getValue(const unsigned int count){
+order<KEYTYPE, DATATYPE> Tree<KEYTYPE, DATATYPE>::getValue(const unsigned int &count){
     if(count <= capacity)
     return dat[count];
 }
 #endif	/* TREE_H */
+
+
+
+/*
+ * {
+    dat[count].data = n->data;
+    dat[count].key = n->key;
+    count++;
+    }
+ */
 
