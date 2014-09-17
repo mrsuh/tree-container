@@ -216,31 +216,38 @@ unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем количест�
 
 template <class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
-    if(n->left != NULL){
+    if(n->left != NULL)
         postorder(n->left);
-    } 
-    if(n->right != NULL){
-        postorder(n->right);
-    }
     {
     dat[count].data = n->data;
     dat[count].key = n->key;
     count++;
     }
+    
+    if(n->right != NULL)
+        postorder(n->right);
+    
+    
+    
+    
  }
+
 
 template<class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::setPostorder(){
     dat = new order<KEYTYPE, DATATYPE>[capacity];
     count = 0;
     if(root->left != NULL){
+        std::cout<<"\nLeft";
     postorder(root->left);
     }
+    
     dat[count].data = root->data;
     dat[count].key = root->key;
     count++;
-    
+    std::cout<<"\nCenter";
     if (root->right != NULL){
+        std::cout<<"\nRight";
     postorder(root->right);
     }
 }
