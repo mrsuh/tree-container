@@ -221,23 +221,23 @@ void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
     else if(n->right != NULL)
         postorder(n->right);
     {
-    dat[count].data = n->data;
-    dat[count].key = n->key;
-    count++;
+    //dat[count].data = n->data;
+    //dat[count].key = n->key;
+    //count++;
     }
- } 
+ }
 
 template<class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::setPostorder(){
     dat = new order<KEYTYPE, DATATYPE>[capacity];
+    count = 0;
     postorder(root);
-};
+}
+
 template<class KEYTYPE, class DATATYPE>
 order<KEYTYPE, DATATYPE> Tree<KEYTYPE, DATATYPE>::getValue(const unsigned int count){
     if(count <= capacity)
     return dat[count];
 }
-
-
 #endif	/* TREE_H */
 
