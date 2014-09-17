@@ -8,10 +8,12 @@
 #ifndef NODE_H
 #define	NODE_H
 template<class KEYTYPE,class DATATYPE> class Tree;
+template<class KEYTYPE,class DATATYPE> class multiTree;
 
 template<class KEYTYPE,class DATATYPE>
 class Node{
     friend class Tree<KEYTYPE, DATATYPE>;
+    friend class multiTree<KEYTYPE, DATATYPE>;
 private:
     KEYTYPE key;
     DATATYPE data;

@@ -16,7 +16,7 @@ template <class KEYTYPE, class DATATYPE>
 class multiTree : public order<KEYTYPE, DATATYPE>{
     private:
         
-        void postorder(Node<KEYTYPE, DATATYPE>* n);
+        void inorder(Node<KEYTYPE, DATATYPE>* n);
         Node<KEYTYPE, DATATYPE>* root;
         unsigned int capacity;
         unsigned int count;
@@ -69,7 +69,7 @@ int multiTree<KEYTYPE, DATATYPE>::insert_elem(const KEYTYPE &my_key,const DATATY
     else if(my_key > ptr2->getKey())
         ptr2->right = node;
 
-        //std::cout<<"\nK:"<<node->getKey()<<" D:"<<node->getData();
+        
   return 0;    
 };
 
@@ -204,17 +204,16 @@ unsigned int multiTree<KEYTYPE, DATATYPE>::getSize(){//узнаем количе
 }
 
 template <class KEYTYPE, class DATATYPE>
-void multiTree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
+void multiTree<KEYTYPE, DATATYPE>::inorder(Node<KEYTYPE, DATATYPE>* n){
     if(n->left != NULL)
-        postorder(n->left);
+        inorder(n->left);
     {
-    std::cout<<"\n-["<<n->key;
     dat[count].data = n->data;
     dat[count].key = n->key;
     count++;
     }
     if(n->right != NULL)
-        postorder(n->right); 
+        inorder(n->right); 
  }
 
 
@@ -223,17 +222,15 @@ void multiTree<KEYTYPE, DATATYPE>::setPostorder(){
     dat = new order<KEYTYPE, DATATYPE>[capacity];
     count = 0;
     if(root->left != NULL){
-        std::cout<<"\nLeft";
-    postorder(root->left);
+
+    inorder(root->left);
     }
     
     dat[count].data = root->data;
     dat[count].key = root->key;
     count++;
-    std::cout<<"\nCenter";
     if (root->right != NULL){
-        std::cout<<"\nRight";
-    postorder(root->right);
+    inorder(root->right);
     }
 }
 

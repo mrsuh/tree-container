@@ -1,10 +1,3 @@
-/* 
- * File:   Tree.h
- * Author: damin
- *
- * Created on September 15, 2014, 9:07 PM
- */
-
 #ifndef TREE_H
 #define	TREE_H
 #include <iostream>
@@ -19,22 +12,22 @@ template <class KEYTYPE, class DATATYPE>
 class Tree : public order<KEYTYPE, DATATYPE>{
     private:
         
-        void postorder(Node<KEYTYPE, DATATYPE>* n);
-        Node<KEYTYPE, DATATYPE>* root;
-        unsigned int capacity;
-        unsigned int count;
+        void inorder(Node<KEYTYPE, DATATYPE>* n);//пройтись по дереву от младшего к старшему элементу
+        Node<KEYTYPE, DATATYPE>* root;//указатель на узел
+        unsigned int capacity;//количество узлов в дереве
+        unsigned int count;//количество узлов, которые мы обошли функцией PostOrder
     public:
         Tree();
-        int insert_elem(const KEYTYPE &my_key, const DATATYPE &my_data);
-        int remove_elem(const KEYTYPE &my_key);
-        Node<KEYTYPE, DATATYPE>* min_elem();
-        Node<KEYTYPE, DATATYPE>* max_elem();
-        Node<KEYTYPE, DATATYPE>* find_elem(const KEYTYPE &my_key);
-        void setPostorder();
-        order<KEYTYPE, DATATYPE> getValue(const unsigned int &count);
-        unsigned int getSize();
+        int insert_elem(const KEYTYPE &my_key, const DATATYPE &my_data);//вставить элемент
+        int remove_elem(const KEYTYPE &my_key);//удалить элемент
+        Node<KEYTYPE, DATATYPE>* min_elem();//минимальный элемент
+        Node<KEYTYPE, DATATYPE>* max_elem();//максимальный элемент
+        Node<KEYTYPE, DATATYPE>* find_elem(const KEYTYPE &my_key);//найти элемент
+        void setPostorder();//занести результат функции inorder в массив
+        order<KEYTYPE, DATATYPE> getValue(const unsigned int &count);//взять данные из отсортированного массива
+        unsigned int getSize();//вернуть размер дерева
         
-    private: order<KEYTYPE, DATATYPE> *dat;
+    private: order<KEYTYPE, DATATYPE> *dat;//указатель на структуру. куда будет заноситься отсортированная информация
 };
 
 template <class KEYTYPE, class DATATYPE>
@@ -54,7 +47,7 @@ int Tree<KEYTYPE, DATATYPE>::insert_elem(const KEYTYPE &my_key,const DATATYPE &m
     ptr = find_elem(my_key);//проверим, есть ли такой элемент
     
     if(ptr != NULL){//элемент уже существует
-       ptr->data += my_data;
+       ptr->data += my_data;//для подсчета количества вхождений слова
        return 0;
     }
     capacity++;//увеличим счетчик на еденицу
@@ -64,23 +57,20 @@ int Tree<KEYTYPE, DATATYPE>::insert_elem(const KEYTYPE &my_key,const DATATYPE &m
     
     while(ptr!=0){
         ptr2 = ptr;
-    if (my_key < ptr->getKey())
+    if (my_key < ptr->getKey())//если значение меньше - пойти по левой ветке
         ptr = ptr->left;
-    else if (my_key > ptr->getKey())
+    else if (my_key > ptr->getKey())//если значение больше - пойти по правой ветке
         ptr = ptr->right;
     }
-    node->parent = ptr2;
+    node->parent = ptr2;//присвить найденное значение parent узла
     
-    if(ptr2 == 0)
+    if(ptr2 == 0)//если дерева нет то первый элемент - корень
          root = node;
-    else if(my_key < ptr2->getKey())
-        ptr2->left = node;
+    else if(my_key < ptr2->getKey())//в другом случае посмотрим с какой стороны parent мы добавили узел
+        ptr2->left = node;// и сделаем на него обратную ссылку
     else if(my_key > ptr2->getKey())
         ptr2->right = node;
-    //test
-    {
-        std::cout<<"\nK:"<<node->getKey()<<" D:"<<node->getData();
-    }
+    
   return 0;    
 };
 
@@ -215,36 +205,32 @@ unsigned int Tree<KEYTYPE, DATATYPE>::getSize(){//узнаем количест�
 }
 
 template <class KEYTYPE, class DATATYPE>
-void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
+void Tree<KEYTYPE, DATATYPE>::inorder(Node<KEYTYPE, DATATYPE>* n){//обход дерева от младшего(левого) к старшему (правому)
     if(n->left != NULL)
-        postorder(n->left);
+        inorder(n->left);
     {
-    std::cout<<"\n-["<<n->key;
     dat[count].data = n->data;
     dat[count].key = n->key;
     count++;
     }
     if(n->right != NULL)
-        postorder(n->right); 
+        inorder(n->right); 
  }
 
 
 template<class KEYTYPE, class DATATYPE>
 void Tree<KEYTYPE, DATATYPE>::setPostorder(){
-    dat = new order<KEYTYPE, DATATYPE>[capacity];
+    dat = new order<KEYTYPE, DATATYPE>[capacity];//создадим массив для отсортированных значений
     count = 0;
-    if(root->left != NULL){
-        std::cout<<"\nLeft";
-    postorder(root->left);
+    if(root->left != NULL){//пройдемся по левому поддереву
+    inorder(root->left);
     }
     
-    dat[count].data = root->data;
+    dat[count].data = root->data;//занесем значения в массив из корня
     dat[count].key = root->key;
     count++;
-    std::cout<<"\nCenter";
-    if (root->right != NULL){
-        std::cout<<"\nRight";
-    postorder(root->right);
+    if (root->right != NULL){//пройдемся по левому поддереву
+    inorder(root->right);
     }
 }
 
