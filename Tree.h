@@ -219,17 +219,13 @@ void Tree<KEYTYPE, DATATYPE>::postorder(Node<KEYTYPE, DATATYPE>* n){
     if(n->left != NULL)
         postorder(n->left);
     {
+    std::cout<<"\n-["<<n->key;
     dat[count].data = n->data;
     dat[count].key = n->key;
     count++;
     }
-    
     if(n->right != NULL)
-        postorder(n->right);
-    
-    
-    
-    
+        postorder(n->right); 
  }
 
 
@@ -259,13 +255,4 @@ order<KEYTYPE, DATATYPE> Tree<KEYTYPE, DATATYPE>::getValue(const unsigned int &c
 }
 #endif	/* TREE_H */
 
-
-
-/*
- * {
-    dat[count].data = n->data;
-    dat[count].key = n->key;
-    count++;
-    }
- */
 
